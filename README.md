@@ -1,0 +1,2 @@
+Hidden4KanjiIdiom
+=================
