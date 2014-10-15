@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title></title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+
+        <link rel="stylesheet" href="css/bootstrap.min.css">
+        <style>
+            body {
+                padding-top: 50px;
+                padding-bottom: 20px;
+            }
+        </style>
+        <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+        <link rel="stylesheet" href="css/main.css">
+
+        <script src="js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+    <div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+      <div class="container">
+        <div class="navbar-header">
+          <h2>漢字の線に囲まれた部分だけを塗りつぶした画像で何の四字熟語か当てろ！</h2>
+        </div>
+      </div>
+    </div>
+
+    <!-- Main jumbotron for a primary marketing message or call to action -->
+    <div class="jumbotron">
+      <div class="container" id="app">
+        
+        <canvas id="canvas-idiom" width="400" height="120"></canvas>
+        <div class="answer hidden-block"></div>
+        <p><a class="btn btn-primary btn-lg btn-toggle-answer" role="button">答えを見る</a></p>
+        <p><a class="btn btn-primary btn-lg btn-next-idiom" role="button">次の熟語 &raquo;</a></p>
+      </div>
+    </div>
+
+    <div class="container">
+      <footer>
+        <p>based on <a href="http://blog.livedoor.jp/kinisoku/archives/4204798.html" target="_blank">漢字の線に囲まれた部分だけを塗りつぶした画像で何の四字熟語か当てるスレ</a></p>
+        <p>&copy; 2014 poppycocker</p>
+      </footer>
+    </div> <!-- /container -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+    <script>window.jQuery || document.write('<script src="js/vendor/jquery-1.11.1.min.js"><\/script>')</script>
+
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.5.2/underscore-min.js"></script>
+    <script src="http://cdnjs.cloudflare.com/ajax/libs/backbone.js/1.1.0/backbone-min.js"></script>
+    <script src="js/colorUtil.js"></script>
+    <script src="js/canvasUtil.js"></script>
+    <script src="js/mt.js"></script>
+    <script src="js/app.js"></script>
+
+    </body>
+</html>
