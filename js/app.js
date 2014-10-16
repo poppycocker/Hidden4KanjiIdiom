@@ -57,7 +57,6 @@ $(function() {
 		'台風一過',
 		'魑魅魍魎'
 	];
-	var mediator = _.extend({}, Backbone.Events);
 
 	var AppView = Backbone.View.extend({
 		el: '#app',
@@ -68,13 +67,10 @@ $(function() {
 		initialize: function() {
 			_.bindAll(this, 'showNextIdiom', 'toggleAnswer');
 			this.canvasView = new CanvasView();
-			this.btnToggleAnswer = $('btn-toggle-answer');
 			this.labels = ['問題を見る', '答えを見る'];
-
 			this.mt = new MersenneTwister();
 			var date = new Date();
 			this.mt.setSeed(date.getMilliseconds() + 1000 * date.getSeconds() + 100000 * date.getMinutes());
-
 			this.showNextIdiom();
 		},
 		showNextIdiom: function() {
@@ -87,10 +83,9 @@ $(function() {
 		toggleAnswer: function(e) {
 			var $e = $(e.currentTarget);
 			$e.text(this.labels[0]);
+			$e.toggleClass('btn-success btn-warning');
 			this.labels.reverse();
 			this.canvasView.toggleImage();
-
-			$e.toggleClass('btn-success btn-warning');
 		}
 	});
 
@@ -106,7 +101,6 @@ $(function() {
 		initCanvas: function() {
 			this.ctx.fillStyle = 'rgba(255, 255, 255, 1.0)';
 			this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
-
 			var w = Math.min($('.canvas-container').width(), 800);
 			this.$el.width(w);
 		},
@@ -142,7 +136,8 @@ $(function() {
 
 			// 枠描画
 			this.ctx.lineWidth = this.canvas.width / 160;
-			var i, w = this.canvas.width / idiom.length, h = this.canvas.height;
+			var i, w = this.canvas.width / idiom.length,
+				h = this.canvas.height;
 			for (i = 0; i < idiom.length; i++) {
 				this.ctx.strokeRect(w * i, 0, w, h);
 			}
