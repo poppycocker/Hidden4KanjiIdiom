@@ -68,8 +68,7 @@ $(function() {
 		initialize: function() {
 			_.bindAll(this, 'showNextIdiom', 'toggleAnswer');
 			this.canvasView = new CanvasView();
-			this.answerView = new AnswerView();
-			this.btnToggleAnswer = $('btn-toggle-answer')
+			this.btnToggleAnswer = $('btn-toggle-answer');
 			this.labels = ['問題を見る', '答えを見る'];
 
 			this.mt = new MersenneTwister();
@@ -79,20 +78,19 @@ $(function() {
 			this.showNextIdiom();
 		},
 		showNextIdiom: function() {
-			this.answerView.hide();
 			idiom = candidates[this.mt.nextInt(candidates.length)];
 			var model = new CandidateModel({
 				idiom: idiom
 			});
 			this.canvasView.render(model);
-			this.answerView.render(model);
 		},
 		toggleAnswer: function(e) {
 			var $e = $(e.currentTarget);
 			$e.text(this.labels[0]);
 			this.labels.reverse();
 			this.canvasView.toggleImage();
-			this.answerView.toggle();
+
+			$e.toggleClass('btn-success btn-warning');
 		}
 	});
 
@@ -104,20 +102,23 @@ $(function() {
 			this.canvas = document.querySelector("#canvas-idiom");
 			this.ctx = this.canvas.getContext("2d");
 			this.initCanvas();
-
 		},
 		initCanvas: function() {
 			this.ctx.fillStyle = 'rgba(255, 255, 255, 1.0)';
 			this.ctx.fillRect(0, 0, this.canvas.width, this.canvas.height);
+
+			var w = Math.min($('.canvas-container').width(), 800);
+			this.$el.width(w);
 		},
 		render: function(model) {
+			var idiom = model.get('idiom');
 			this.initCanvas();
 			this.ctx.imageSmoothingEnabled = false;
 			this.ctx.textAlign = 'center';
 			this.ctx.textBaseline = 'middle';
-			this.ctx.font = "96px 'ＭＳ ゴシック'";
+			this.ctx.font = "192px 'ＭＳ ゴシック'";
 			this.ctx.fillStyle = 'rgba(1, 1, 1, 1.0)';
-			this.ctx.fillText(model.get('idiom'), this.canvas.width / 2, this.canvas.height / 2);
+			this.ctx.fillText(idiom, this.canvas.width / 2, this.canvas.height / 2);
 
 			// 2階調化
 			var imageData = this.ctx.getImageData(0, 0, this.canvas.width, this.canvas.height);
@@ -140,7 +141,11 @@ $(function() {
 			this.ctx.putImageData(imageData, 0, 0);
 
 			// 枠描画
-			this.ctx.strokeRect(0, 0, this.canvas.width, this.canvas.height);
+			this.ctx.lineWidth = this.canvas.width / 160;
+			var i, w = this.canvas.width / idiom.length, h = this.canvas.height;
+			for (i = 0; i < idiom.length; i++) {
+				this.ctx.strokeRect(w * i, 0, w, h);
+			}
 
 			var filled = this.canvas.toDataURL();
 
@@ -153,32 +158,6 @@ $(function() {
 				this.ctx.drawImage(img, 0, 0);
 			}, this);
 			this.images.reverse();
-		}
-	});
-
-	var AnswerView = Backbone.View.extend({
-		el: '.answer',
-		initialize: function() {
-			_.bindAll(this, 'render', 'toggle', 'hide', 'show');
-			this.showing = false;
-		},
-		render: function(model) {
-			this.$el.text(model.get('idiom'));
-			return this;
-		},
-		toggle: function() {
-			if (this.showing) {
-				this.hide();
-			} else {
-				this.show();
-			}
-			this.showing = !this.showing;
-		},
-		hide: function() {
-			this.$el.addClass('hidden-block');
-		},
-		show: function() {
-			this.$el.removeClass('hidden-block');
 		}
 	});
 

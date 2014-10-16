@@ -35,19 +35,24 @@
     </div>
 
     <!-- Main jumbotron for a primary marketing message or call to action -->
-    <div class="jumbotron">
-      <div class="container" id="app">
-        
-        <canvas id="canvas-idiom" width="400" height="120"></canvas>
+    <div class="jumbotron" id="app">
+      <div class="container canvas-container">
+
+        <canvas id="canvas-idiom" width="800" height="240"></canvas>
         <div class="answer hidden-block"></div>
-        <p><a class="btn btn-primary btn-lg btn-toggle-answer" role="button">答えを見る</a></p>
-        <p><a class="btn btn-primary btn-lg btn-next-idiom" role="button">次の熟語 &raquo;</a></p>
+      </div>
+      <div class="container">
+        <div class="row">
+            <p class="col-md-2 col-xs-6"><a class="btn btn-success btn-lg btn-toggle-answer" role="button">答えを見る</a></p>
+            <p class="col-md-2 col-xs-6"><a class="btn btn-primary btn-lg btn-next-idiom" role="button">次の熟語 &raquo;</a></p>
+        </div>
       </div>
     </div>
 
     <div class="container">
       <footer>
         <p>based on <a href="http://blog.livedoor.jp/kinisoku/archives/4204798.html" target="_blank">漢字の線に囲まれた部分だけを塗りつぶした画像で何の四字熟語か当てるスレ</a></p>
+        <p>view on <a href="https://github.com/poppycocker/Hidden4KanjiIdiom" target="_blank">GitHub</a></p>
         <p>&copy; 2014 poppycocker</p>
       </footer>
     </div> <!-- /container -->

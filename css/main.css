@@ -4,8 +4,13 @@
 
 h2 {
 	color: white;
+	font-size: 1em;
 }
 
 .hidden-block {
 	display: none;
+}
+
+#app, .container {
+	/*padding: 2%;*/
 }
