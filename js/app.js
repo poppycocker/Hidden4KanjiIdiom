@@ -58,16 +58,25 @@ $(function() {
 		'魑魅魍魎'
 	];
 
+	var mediator = _.extend({}, Backbone.Events);
+	var EVENTS = {
+		TOGGLE_IMAGE: 'toggele_image',
+		SHOW_NEXT: 'show_next'
+	};
+
 	var AppView = Backbone.View.extend({
 		el: '#app',
 		events: {
-			'click .btn-toggle-answer': 'toggleAnswer',
-			'click .btn-next-idiom': 'showNextIdiom'
 		},
 		initialize: function() {
-			_.bindAll(this, 'showNextIdiom', 'toggleAnswer');
+			_.bindAll(this, 'showNextIdiom');
 			this.canvasView = new CanvasView();
-			this.labels = ['問題を見る', '答えを見る'];
+			this.toggleButtonView = new ToggleAnswerButtonView();
+			this.nextIdiomButtonView = new NextIdiomButtonView();
+
+			mediator.on(EVENTS.TOGGLE_IMAGE, this.canvasView.toggleImage);
+			mediator.on(EVENTS.SHOW_NEXT, this.showNextIdiom);
+
 			this.mt = new MersenneTwister();
 			var date = new Date();
 			this.mt.setSeed(date.getMilliseconds() + 1000 * date.getSeconds() + 100000 * date.getMinutes());
@@ -79,14 +88,8 @@ $(function() {
 				idiom: idiom
 			});
 			this.canvasView.render(model);
+			this.toggleButtonView.reset();
 		},
-		toggleAnswer: function(e) {
-			var $e = $(e.currentTarget);
-			$e.text(this.labels[0]);
-			$e.toggleClass('btn-success btn-warning');
-			this.labels.reverse();
-			this.canvasView.toggleImage();
-		}
 	});
 
 	var CanvasView = Backbone.View.extend({
@@ -161,6 +164,44 @@ $(function() {
 			return {
 				idiom: ''
 			};
+		}
+	});
+
+	var ToggleAnswerButtonView = Backbone.View.extend({
+		el: '.btn-toggle-answer',
+		events: {
+			'click': 'toggle'
+		},
+		initialize: function() {
+			_.bindAll(this, 'reset', 'toggle', 'render');
+			this.reset();
+		},
+		reset: function() {
+			this.labels = ['答えを見る', '問題に戻る'];
+			this.$el.removeClass('btn-warning').addClass('btn-success');
+			this.render();
+		},
+		toggle: function() {
+			this.labels.reverse();
+			this.render();
+			this.$el.toggleClass('btn-success btn-warning');
+			mediator.trigger(EVENTS.TOGGLE_IMAGE);
+		},
+		render: function() {
+			this.$el.text(this.labels[0]);
+		}
+	});
+
+	var NextIdiomButtonView = Backbone.View.extend({
+		el: '.btn-next-idiom',
+		events: {
+			'click': 'showNext'
+		},
+		initialize: function() {
+			_.bindAll(this, 'showNext');
+		},
+		showNext: function() {
+			mediator.trigger(EVENTS.SHOW_NEXT);
 		}
 	});
 
