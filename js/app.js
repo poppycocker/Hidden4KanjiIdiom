@@ -66,8 +66,7 @@ $(function() {
 
 	var AppView = Backbone.View.extend({
 		el: '#app',
-		events: {
-		},
+		events: {},
 		initialize: function() {
 			_.bindAll(this, 'showNextIdiom');
 			this.canvasView = new CanvasView();
@@ -206,4 +205,20 @@ $(function() {
 	});
 
 	window.app = new AppView();
+});
+
+$(function() {
+	$('#hatena').socialbutton('hatena', {
+		button: 'vertical'
+	});
+	$('#twitter').socialbutton('twitter', {
+		button: 'vertical'
+	});
+	$('#google_plusone').socialbutton('google_plusone', {
+		lang: 'ja',
+		size: 'tall'
+	});
+	$('#facebook_like').socialbutton('facebook_like', {
+		button: 'box_count'
+	});
 });
