@@ -66,12 +66,15 @@ $(function() {
 
 	var AppView = Backbone.View.extend({
 		el: '#app',
-		events: {},
+		events: {
+			'click .btn-generate-image': 'showFreeWord'
+		},
 		initialize: function() {
-			_.bindAll(this, 'showNextIdiom');
+			_.bindAll(this, 'showIdiom', 'showNextIdiom', 'showFreeWord');
 			this.canvasView = new CanvasView();
 			this.toggleButtonView = new ToggleAnswerButtonView();
 			this.nextIdiomButtonView = new NextIdiomButtonView();
+			this.freeWordInputView = new FreeWordInputView();
 
 			mediator.on(EVENTS.TOGGLE_IMAGE, this.canvasView.toggleImage);
 			mediator.on(EVENTS.SHOW_NEXT, this.showNextIdiom);
@@ -80,15 +83,29 @@ $(function() {
 			var date = new Date();
 			this.mt.setSeed(date.getMilliseconds() + 1000 * date.getSeconds() + 100000 * date.getMinutes());
 			this.showNextIdiom();
+
+			$('.btn-generate-image').click(function(e) {
+				return e.preventDefault();
+			});
 		},
-		showNextIdiom: function() {
-			idiom = candidates[this.mt.nextInt(candidates.length)];
+		showIdiom: function(idiom) {
 			var model = new CandidateModel({
 				idiom: idiom
 			});
 			this.canvasView.render(model);
 			this.toggleButtonView.reset();
 		},
+		showNextIdiom: function() {
+			var idiom = candidates[this.mt.nextInt(candidates.length)];
+			this.showIdiom(idiom);
+		},
+		showFreeWord: function() {
+			if (!this.freeWordInputView.checkFormat()) {
+				return;
+			}
+			var idiom = this.freeWordInputView.getFilledString();
+			this.showIdiom(idiom);
+		}
 	});
 
 	var CanvasView = Backbone.View.extend({
@@ -204,21 +221,22 @@ $(function() {
 		}
 	});
 
-	window.app = new AppView();
-});
+	var FreeWordInputView = Backbone.View.extend({
+		el: '#input-free-4-chars',
+		events: {},
+		initialize: function() {},
+		checkFormat: function() {
+			var val = this.$el.val();
+			return !!val.match(/^(?:[々〇〻\u3400-\u9FFF\uF900-\uFAFFぁ-んァ-ヴ]|[\uD840-\uD87F][\uDC00-\uDFFF])+$/);
+		},
+		getFilledString: function() {
+			var val = this.$el.val();
+			while (val.length < 4) {
+				val += '\u3000';
+			}
+			return val;
+		}
+	});
 
-$(function() {
-	$('#hatena').socialbutton('hatena', {
-		button: 'vertical'
-	});
-	$('#twitter').socialbutton('twitter', {
-		button: 'vertical'
-	});
-	$('#google_plusone').socialbutton('google_plusone', {
-		lang: 'ja',
-		size: 'tall'
-	});
-	$('#facebook_like').socialbutton('facebook_like', {
-		button: 'box_count'
-	});
+	window.app = new AppView();
 });

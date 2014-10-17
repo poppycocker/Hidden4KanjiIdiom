@@ -50,6 +50,15 @@
             <p class="col-md-2 col-xs-6"><a class="btn btn-success btn-lg btn-toggle-answer" role="button"></a></p>
             <p class="col-md-2 col-xs-6"><a class="btn btn-primary btn-lg btn-next-idiom" role="button">次の熟語 &raquo;</a></p>
         </div>
+        <div class="row">
+            <form class="form-inline" role="form">
+              <div class="form-group col-md-4 col-xs-12">
+                <label for="input-free-4-chars">好きな四文字(漢字/ひらがな/カタカナ)で試してみよう</label>
+                <input type="text" class="form-control free-4-chars" id="input-free-4-chars" placeholder="四字熟語" maxlength="4" pattern="^(?:[々〇〻\u3400-\u9FFF\uF900-\uFAFFぁ-んァ-ヴ]|[\uD840-\uD87F][\uDC00-\uDFFF])+$">
+                <button class="btn btn-primary btn-generate-image">作成！</button>
+              </div>
+            </form>
+        </div>
       </div>
     </div>
 
